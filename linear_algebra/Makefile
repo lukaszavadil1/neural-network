@@ -15,27 +15,30 @@ run: main
 # RUN ON WINDOWS
 
 win-run: main
-	main.exe
+	main
 
 ##############################################
 
 # GENERATE .o FILES
 
 main.o: main.c
-	$(CC) $(CFLAGS) main.c -c -o main.o
+	$(CC) $(CFLAGS) $< -c -o $@
 
 matrix.o: matrix.c
-	$(CC) $(CFLAGS) matrix.c -c -o matrix.o
+	$(CC) $(CFLAGS) $< -c -o $@
+
+operations.o: operations.c
+	$(CC) $(CFLAGS) $< -c -o $@
 
 ##############################################
 
 # BUILD EXECUTABLES
 
-main: main.o matrix.o
-	$(CC) $(CFLAGS) main.o matrix.o
+main: main.o matrix.o operations.o
+	$(CC) $(CFLAGS) $^ -o $@
 
 clean:
-	rm *.o
+	rm *.o main
 
 win-clean:
-	del *.o
+	del *.o main.exe
