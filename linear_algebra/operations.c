@@ -1,8 +1,14 @@
-// Matrix operations
+// Name: operations.c
+// Linear algebra library
+// Start date: 28.5.2022
+// Author: Lukáš Zavadil
+// Compiled: gcc (GCC) 9.2.0
+// Git repository: https://github.com/lukaszavadil1/neural-network
 
 // Local includes
 #include "operations.h"
 
+// Validate dimensions of matrices
 bool dimension_validate(Matrix_t *m, Matrix_t *n) {
     if (m->cols == n->cols && m->rows == n->rows) {
         return true;
@@ -10,9 +16,10 @@ bool dimension_validate(Matrix_t *m, Matrix_t *n) {
     return false;
 }
 
+// Add two matrices
 Matrix_t *add(Matrix_t *m, Matrix_t *n) {
     if (dimension_validate(m, n)) {
-        Matrix_t *result = matrix_init(m->rows, m->cols);
+        Matrix_t *result = m_init(m->rows, m->cols);
         for (unsigned int i = 0; i < m->rows; i++) {
             for (unsigned int j = 0; j < n->cols; j++) {
                 result->items[i][j] = m->items[i][j] + n->items[i][j];
@@ -26,9 +33,10 @@ Matrix_t *add(Matrix_t *m, Matrix_t *n) {
     }
 }
 
+// Subtract two matrices
 Matrix_t *sub(Matrix_t *m, Matrix_t *n) {
     if (dimension_validate(m, n)) {
-        Matrix_t *result = matrix_init(m->rows, m->cols);
+        Matrix_t *result = m_init(m->rows, m->cols);
         for (unsigned int i = 0; i < m->rows; i++) {
             for (unsigned int j = 0; j < n->cols; j++) {
                 result->items[i][j] = m->items[i][j] - n->items[i][j];
@@ -42,9 +50,10 @@ Matrix_t *sub(Matrix_t *m, Matrix_t *n) {
     }
 }
 
+// Multiply two matrices
 Matrix_t *mul(Matrix_t *m, Matrix_t *n) {
     if (dimension_validate(m, n)) {
-        Matrix_t *result = matrix_init(m->rows, m->cols);
+        Matrix_t *result = m_init(m->rows, m->cols);
         for (unsigned int i = 0; i < m->rows; i++) {
             for (unsigned int j = 0; j < n->cols; j++) {
                 result->items[i][j] = m->items[i][j] * n->items[i][j];
@@ -58,10 +67,11 @@ Matrix_t *mul(Matrix_t *m, Matrix_t *n) {
     }
 }
 
+// Matrix dot product
 Matrix_t *dot(Matrix_t *m, Matrix_t *n) {
     double tmp;
     if (m->cols == n->rows) {
-        Matrix_t *result = matrix_init(m->rows, n->cols);
+        Matrix_t *result = m_init(m->rows, n->cols);
         for (unsigned int i = 0; i < m->rows; i++) {
             for (unsigned int j = 0; j < n->cols; j++) {
                 tmp = 0;
@@ -77,4 +87,37 @@ Matrix_t *dot(Matrix_t *m, Matrix_t *n) {
         fprintf(stderr, "Dimension compatibility error");
         exit(1);
     }
+}
+
+// Matirx scalar multiplication
+Matrix_t *smul(double scalar, Matrix_t *m) {
+    Matrix_t *matrix = m_copy(m);
+    for (unsigned int i = 0; i < m->rows; i++) {
+        for (unsigned int j = 0; j < m->cols; j++) {
+            matrix->items[i][j] *= scalar;
+        }
+    }
+    return matrix; 
+}
+
+// Matrix scalar addition
+Matrix_t *sadd(double scalar, Matrix_t *m) {
+    Matrix_t *matrix = m_copy(m);
+    for (unsigned int i = 0; i < m->rows; i++) {
+        for (unsigned int j = 0; j < m->cols; j++) {
+            matrix->items[i][j] += scalar;
+        }
+    }
+    return matrix;
+}
+
+// Matrix trasnposition
+Matrix_t *trans(Matrix_t *m) {
+    Matrix_t *matrix = m_init(m->rows, m->cols);
+    for (unsigned int i = 0; i < m->rows; i++) {
+        for (unsigned int j = 0; j < m->cols; j++) {
+            matrix->items[j][i] = m->items[i][j];
+        }
+    }
+    return matrix;
 }

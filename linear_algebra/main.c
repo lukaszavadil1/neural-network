@@ -7,19 +7,23 @@
 int main(void) {
 
     int num = 2, num2 = 3, cols = 10, rows = 10;
-    Matrix_t *m = matrix_init(rows, cols);
-    Matrix_t *n = matrix_init(rows, cols);
-    matrix_fill(m, num);
-    matrix_fill(n, num2);
-    matrix_print(m);
+    Matrix_t *m = m_init(rows, cols);
+    Matrix_t *n = m_init(rows, cols);
+    m_fill(m, num);
+    m_fill(n, num2);
+    m_print(m);
     printf("\n");
-    matrix_print(n);
+    m_print(n);
     printf("\n");
     Matrix_t *result = dot(m, n);
-    matrix_print(result);
-    matrix_free(m);
-    matrix_free(n);
-    matrix_free(result);
+    Matrix_t *final = sadd(num, result);
+    m_print(result);
+    printf("\n");
+    m_print(final);
+    m_free(m);
+    m_free(n);
+    m_free(result);
+    m_free(final);
 
     return 0;
 }
