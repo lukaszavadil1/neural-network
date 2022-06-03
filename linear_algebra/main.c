@@ -1,4 +1,9 @@
-// Main file
+// Name: main.c
+// Linear algebra library
+// Start date: 28.5.2022
+// Author: Lukáš Zavadil
+// Compiled: gcc (GCC) 9.2.0
+// Git repository: https://github.com/lukaszavadil1/neural-network
 
 // Local includes
 #include "matrix.h"
@@ -6,26 +11,13 @@
 
 int main(void) {
 
-    int num = 2, num2 = 3, cols = 10, rows = 10;
+    // Testing
+    int cols = 10, rows = 10;
     Matrix_t *m = m_init(rows, cols);
-    Matrix_t *n = m_init(rows, cols);
-    m_fill(m, num);
-    m_fill(n, num2);
-    Matrix_t *result = dot(m, n);
-    printf("Result before: \n");
-    m_print(result);
-    Matrix_t *final = sadd(num, result);
-    m_set(final, "test.txt");
-    result = m_get("test.txt");
-    printf("Result after: \n");
-    m_print(result);
-    printf("Final: \n");
-    m_print(final);
+    m_rand(m, 9);
+    m_print(m);
 
     m_free(m);
-    m_free(n);
-    m_free(result);
-    m_free(final);
 
     return 0;
 }

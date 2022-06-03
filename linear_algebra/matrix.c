@@ -95,7 +95,60 @@ Matrix_t *m_get(char *filename) {
 }
 
 // Uniform distribution algorithm
-double distribute(double min, double max);
+double distribute(double min, double max) {
+    double diff;
+    int s, s_diff;
+    diff = max - min;
+    s = 10000;
+    s_diff = (int)(s * diff);
+    return min + (1.0 * (rand() % s_diff) / s);
+}
+
+// Randomization of matrix entries (Range goes from -1 / sqrt(n) to 1 / sqrt(n))
+void m_rand(Matrix_t *m, int range) {
+    double min, max;
+    min = -1.0 / sqrt(range);
+    max = 1.0 / sqrt(range);
+    for (unsigned int i = 0; i < m->rows; i++) {
+        for (unsigned int j = 0; j < m->cols; j++) {
+            m->items[i][j] = distribute(min, max);
+        }
+    }
+}
+
+// Retruns index of the largest entry from flattened matrix
+unsigned int m_max(Matrix_t *m) {
+    double max = 0;
+    unsigned int index = 0;
+    for (unsigned int i = 0; i < m->rows; i++) {
+        if (m->items[i][0] > max) {
+            max = m->items[i][0];
+            index = i;
+        }
+    }
+    
+    return index;
+}
+
+// Matrix flattening
+Matrix_t *m_flat(Matrix_t *m, int vector_type) {
+	Matrix_t *matrix;
+	if (vector_type == 0) {
+		matrix = matrix_init(m->rows * m->cols, 1);
+	} else if (vector_type == 1) {
+		matrix = matrix_init(1, m->rows * m->cols);
+	} else {
+		printf("Wrong vector_type argument.\n");
+		exit(1);
+	}
+	for (int i = 0; i < m->rows; i++) {
+		for (int j = 0; j < m->cols; j++) {
+			if (vector_type == 0) matrix->items[i * m->cols + j][0] = m->items[i][j];
+			else if (vector_type == 1) matrix->items[0][i * m->cols + j] = m->items[i][j];
+		}
+	}
+	return matrix;
+}
 
 // Matrix free allocated memory
 void m_free(Matrix_t *m) {
