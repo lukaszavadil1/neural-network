@@ -28,7 +28,7 @@ Matrix_t *add(Matrix_t *m, Matrix_t *n) {
         return result;
     }
     else {
-        fprintf(stderr, "Dimension compatibility error");
+        fprintf(stderr, "Dimension compatibility error\n");
         exit(1);
     }
 }
@@ -45,7 +45,7 @@ Matrix_t *sub(Matrix_t *m, Matrix_t *n) {
         return result;
     }
     else {
-        fprintf(stderr, "Dimension compatibility error");
+        fprintf(stderr, "Dimension compatibility error\n");
         exit(1);
     }
 }
@@ -62,7 +62,7 @@ Matrix_t *mul(Matrix_t *m, Matrix_t *n) {
         return result;
     }
     else {
-        fprintf(stderr, "Dimension compatibility error");
+        fprintf(stderr, "Dimension compatibility error\n");
         exit(1);
     }
 }
@@ -84,7 +84,7 @@ Matrix_t *dot(Matrix_t *m, Matrix_t *n) {
         return result;
     }
     else {
-        fprintf(stderr, "Dimension compatibility error");
+        fprintf(stderr, "Dimension compatibility error\n");
         exit(1);
     }
 }

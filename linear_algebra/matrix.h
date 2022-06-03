@@ -36,8 +36,11 @@ void m_fill(Matrix_t *matrix, int num);
 // Save matrix to given file
 void m_set(Matrix_t *matrix, char *file_name);
 
+// Uniform distribution algorithm
+double distribute(double min, double max);
+
 // Load matrix from given file
-void m_get(char *file_name);
+Matrix_t *m_get(char *file_name);
 
 // Matrix free allocated memory
 void m_free(Matrix_t *matrix);

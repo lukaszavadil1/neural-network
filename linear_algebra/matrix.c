@@ -8,6 +8,9 @@
 // Local includes
 #include "matrix.h"
 
+// Defines
+#define MAX_LEN 100
+
 // Matrix inicializacion
 Matrix_t *m_init(unsigned int rows, unsigned int cols) {
     Matrix_t *m = malloc(sizeof(Matrix_t));
@@ -51,10 +54,48 @@ void m_fill(Matrix_t * m, int num) {
 }
 
 // Save matrix to given file
-void m_set(Matrix_t *m, char *filename);
+void m_set(Matrix_t *m, char *filename) {
+    FILE *out;
+    if ((out = fopen(filename, "w")) == NULL) {
+        fprintf(stderr, "Access to file '%s' failed.\n", filename);
+        exit(1);
+    }
+    fprintf(out, "%d\n", m->rows);
+    fprintf(out, "%d\n", m->cols);
+    for (unsigned int i = 0; i < m->rows; i++) {
+        for (unsigned int j = 0; j < m->cols; j++) {
+            fprintf(out, "%.6f\n", m->items[i][j]);
+        }
+    }
+    fclose(out);
+}
 
 // Load matrix from given file
-void m_get(char *filename);
+Matrix_t *m_get(char *filename) {
+    FILE *in;
+    if ((in = fopen(filename, "r")) == NULL) {
+        fprintf(stderr, "Access to file '%s' failed.\n", filename);
+        exit(1);
+    }
+    unsigned int rows, cols;
+    char buff[MAX_LEN];
+    fgets(buff, MAX_LEN, in);
+    rows = atoi(buff);
+    fgets(buff, MAX_LEN, in);
+    cols = atoi(buff);
+    Matrix_t *matrix = m_init(rows, cols);
+    for (unsigned int i = 0; i < rows; i++) {
+        for (unsigned int j = 0; j < cols; j++) {
+            fgets(buff, MAX_LEN, in);
+            matrix->items[i][j] = strtod(buff, NULL);
+        }
+    }
+    fclose(in);
+    return matrix;  
+}
+
+// Uniform distribution algorithm
+double distribute(double min, double max);
 
 // Matrix free allocated memory
 void m_free(Matrix_t *m) {
